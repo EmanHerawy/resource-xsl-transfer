@@ -1,0 +1,21 @@
+﻿1. Let user enter the used range (Not Confirmed)
+2. Count the translated rows 
+3. Count the not found translated rows
+4. List the Non translated words/ rows
+5. Code for generating scripts to insert in database
+    Parameters  a. Name of Tables
+	            b. Column Name
+				c. New Translated Words
+				  
+1. Choose Table
+2. Show its columns
+3. Insert Corresponding values
+4. Generate Scripts
+
+SELECT * From INFORMATION_SCHEMA.COLUMNS where TABLE_NAME = 'TblMasterArchiveReasonTranslations'
+
+
+1.Get Original Translation values (By Translation and TableName)
+2.Get TargetCultureId 
+3.Generate Target Script
+
