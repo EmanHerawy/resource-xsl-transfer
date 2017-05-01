@@ -1,17 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Resources;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using ConvertXSLXtoXML.Properties;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace ConvertXSLXtoXML
@@ -23,10 +15,12 @@ namespace ConvertXSLXtoXML
             InitializeComponent();
         }
 
-        private string currentFileName;
-        Dictionary<string ,string> resourceKeys = new Dictionary<string, string>();
+        // private string currentFileName;
+
+        Dictionary<string, string> resourceKeys = new Dictionary<string, string>();
         Dictionary<string, string> dutchNewLangTranslation = new Dictionary<string, string>();
-        private void btnStart_Click(object sender, EventArgs e) {
+        private void btnStart_Click(object sender, EventArgs e)
+        {
 
             #region TotalCode
             //System.Globalization.CultureInfo oldCI = System.Threading.Thread.CurrentThread.CurrentCulture;
@@ -73,13 +67,13 @@ namespace ConvertXSLXtoXML
             //        resourceKeys.Add((string) enumerator.Key, valueText);
             //    }
             //}
-            
+
             //var newLanguageResources = new Dictionary<string, string>();
             //// value in resourcesKeys is key in dutchEnglishtranslations
             //foreach (var item in resourceKeys) {
             //    if (dutchNewLangTranslation.ContainsKey(item.Value))
             //    {
-                    
+
             //        newLanguageResources.Add(item.Key , dutchNewLangTranslation[item.Value]);
             //    }
             //}
@@ -91,25 +85,36 @@ namespace ConvertXSLXtoXML
             //sWriter.Generate();
             //sWriter.Close();
             #endregion
-            string start ="";
+            string start = "";
             string end = "";
             if (!string.IsNullOrWhiteSpace(txtRangeStart.Text.Trim()) &&
-                !string.IsNullOrWhiteSpace(txtRangeEnd.Text.Trim())) {
+                !string.IsNullOrWhiteSpace(txtRangeEnd.Text.Trim()))
+            {
                 start = ConvertAlphaToNumeric(txtRangeStart.Text.Trim());
                 end = ConvertAlphaToNumeric(txtRangeEnd.Text.Trim());
 
             }
 
-            if (!string.IsNullOrWhiteSpace(start) && !string.IsNullOrWhiteSpace(end)) {
-                ExtractTranslationsFromWorkSheet(txtbxExcelfileName.Text , Convert.ToInt32(start.Split('*')[0]), Convert.ToInt32(start.Split('*')[1]) , Convert.ToInt32(end.Split('*')[0]) , Convert.ToInt32(end.Split('*')[1]));
+            if (!string.IsNullOrWhiteSpace(start) && !string.IsNullOrWhiteSpace(end))
+            {
+                ExtractTranslationsFromWorkSheet(txtbxExcelfileName.Text, Convert.ToInt32(start.Split('*')[0]), Convert.ToInt32(start.Split('*')[1]), Convert.ToInt32(end.Split('*')[0]), Convert.ToInt32(end.Split('*')[1]));
                 ExtractKeysFromResourcesFiles(txtbxResxFilePath.Text);
                 string fullNewFileName = string.Format("{0}/{1}", folderBrowserDialog1.SelectedPath,
                     txtbxNewResxFileName.Text);
-                GenerateNewResourcesFile(fullNewFileName);
+                if (GenerateNewResourcesFile(fullNewFileName))
+                {
+                    MessageBox.Show("Generating resource file has been done successfully ");
+                    txtbxExcelfileName.Text = null;
+                    txtRangeEnd.Text = null;
+                    txtRangeStart.Text = null;
+                    txtbxNewResxFileName.Text = null;
+                    txtbxSaveLoc.Text = null;
+                    txtbxResxFilePath.Text = null;
+                }
             }
         }
 
-        public void ExtractTranslationsFromWorkSheet(string excelFilePath , int startRow , int startColumn , int endRow, int endColumn)
+        public void ExtractTranslationsFromWorkSheet(string excelFilePath, int startRow, int startColumn, int endRow, int endColumn)
         {
             System.Globalization.CultureInfo oldCI = System.Threading.Thread.CurrentThread.CurrentCulture;
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
@@ -121,17 +126,21 @@ namespace ConvertXSLXtoXML
 
 
             int rowCount = endRow - startRow + 1;
-            int colCount = endColumn - startColumn +1;
-            
-            for (int i = startRow ; i <= rowCount; i++) {
+            int colCount = endColumn - startColumn + 1;
+
+            for (int i = startRow; i <= rowCount; i++)
+            {
                 var dutchTranslation = string.Empty;
                 var newLangTranslation = string.Empty;
-                for (int j = startColumn; j <= endColumn; j++) {
+                for (int j = startColumn; j <= endColumn; j++)
+                {
                     var ss = xlRange.Cells[i, j];
-                    if (j == startColumn) {
+                    if (j == startColumn)
+                    {
                         dutchTranslation = xlRange.Cells[i, j].Value2;
                     }
-                    if (j == endColumn) {
+                    if (j == endColumn)
+                    {
                         newLangTranslation = xlRange.Cells[i, j].Value2;
                     }
                 }
@@ -140,15 +149,18 @@ namespace ConvertXSLXtoXML
             }
         }
 
-        public void ExtractKeysFromResourcesFiles(string resourcesFilePath) {
+        public void ExtractKeysFromResourcesFiles(string resourcesFilePath)
+        {
             ResXResourceReader s = new ResXResourceReader(resourcesFilePath);
             s.UseResXDataNodes = true;
             IDictionaryEnumerator enumerator = s.GetEnumerator();
-            
+
             Assembly currentAssembly = Assembly.GetExecutingAssembly();
-            while (enumerator.MoveNext()) {
+            while (enumerator.MoveNext())
+            {
                 //Fill the combobox with all key/value pairs
-                if (!resourceKeys.ContainsKey((string)enumerator.Key)) {
+                if (!resourceKeys.ContainsKey((string)enumerator.Key))
+                {
                     var node = (ResXDataNode)enumerator.Value;
                     var valueObj = node.GetValue(new AssemblyName[] { currentAssembly.GetName() });
                     var valueText = valueObj.ToString();
@@ -157,34 +169,62 @@ namespace ConvertXSLXtoXML
             }
         }
 
-        public void GenerateNewResourcesFile(string newFileName) {
+        public bool GenerateNewResourcesFile(string newFileName)
+        {
             var newLanguageResources = new Dictionary<string, string>();
             // value in resourcesKeys is key in dutchEnglishtranslations
-            foreach (var item in resourceKeys) {
-                if (dutchNewLangTranslation.ContainsKey(item.Value)) {
+            foreach (var item in resourceKeys)
+            {
+                if (dutchNewLangTranslation.ContainsKey(item.Value))
+                {
                     newLanguageResources.Add(item.Key, dutchNewLangTranslation[item.Value]);
                 }
             }
             ResXResourceWriter sWriter = new ResXResourceWriter(newFileName);
-            foreach (var item in newLanguageResources) {
+            foreach (var item in newLanguageResources)
+            {
                 sWriter.AddResource(item.Key, item.Value);
             }
             sWriter.Generate();
             sWriter.Close();
+            return true;
         }
 
         private void btnExcel1_Click(object sender, EventArgs e)
         {
-            openFileDialog1.FileName = string.Empty;
-            openFileDialog1.ShowDialog();
-            openFileDialog1.AddExtension = true;
-            if(openFileDialog1.CheckFileExists)
-                currentFileName = openFileDialog1.FileName;
-            var thisControl = (Button) sender;
+
+
+
+
+
+
+
+            //openFileDialog1.AddExtension = true;
+            //// ***** strange way to handel opendialogebox 
+            //if (openFileDialog1.CheckFileExists)
+            //    currentFileName = openFileDialog1.FileName;
+            var thisControl = (Button)sender;
             if (thisControl.Name.Equals("btnExcel1"))
-                txtbxExcelfileName.Text = currentFileName;
+            {
+
+                openFileDialog1.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm";
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    txtbxExcelfileName.Text = openFileDialog1.FileName;
+
+                }
+
+            }
             else if (thisControl.Name.Equals("btnResx"))
-                txtbxResxFilePath.Text = currentFileName;
+            {
+                openFileDialog1.Filter = "Resource Files|*.resx;";
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    txtbxResxFilePath.Text = openFileDialog1.FileName;
+                }
+
+
+            }
         }
 
         private void btnSaveLoc_Click(object sender, EventArgs e)
@@ -196,14 +236,17 @@ namespace ConvertXSLXtoXML
 
         private string ConvertAlphaToNumeric(string range)
         {
+            string cellName = range.Substring(0, 1).ToUpper();
             string alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            if (alpha.IndexOf(range.Substring(0,1)) >= 0) {
-                return string.Format("{1}*{0}",alpha.IndexOf(range.Substring(0,1)) +1, range.Substring(1)); 
+            if (alpha.IndexOf(cellName) >= 0)
+            {
+                return string.Format("{1}*{0}", alpha.IndexOf(cellName) + 1, range.Substring(1));
             }
             return null;
         }
 
-        private void btnGenerateScripts_Click(object sender, EventArgs e) {
+        private void btnGenerateScripts_Click(object sender, EventArgs e)
+        {
             Form2 frm = new Form2();
             frm.Show();
         }

@@ -10,3 +10,15 @@ c:\users\ahmed\documents\visual studio 2013\Projects\ConvertXSLXtoXML\ConvertXSL
 c:\users\ahmed\documents\visual studio 2013\Projects\ConvertXSLXtoXML\ConvertXSLXtoXML\obj\Debug\ConvertXSLXtoXML.pdb
 c:\users\ahmed\documents\visual studio 2013\Projects\ConvertXSLXtoXML\ConvertXSLXtoXML\obj\Debug\ConvertXSLXtoXML.Labels.resources
 C:\Users\Ahmed\Documents\Visual Studio 2013\Projects\ConvertXSLXtoXML\ConvertXSLXtoXML\obj\Debug\ConvertXSLXtoXML.Form2.resources
+D:\srce_controle\resource-xsl-transfer\ConvertXSLXtoXML\bin\Debug\ConvertXSLXtoXML.exe.config
+D:\srce_controle\resource-xsl-transfer\ConvertXSLXtoXML\obj\Debug\ConvertXSLXtoXML.csproj.ResolveComReference.cache
+D:\srce_controle\resource-xsl-transfer\ConvertXSLXtoXML\obj\Debug\ConvertXSLXtoXML.exe
+D:\srce_controle\resource-xsl-transfer\ConvertXSLXtoXML\obj\Debug\ConvertXSLXtoXML.pdb
+D:\srce_controle\resource-xsl-transfer\ConvertXSLXtoXML\bin\Debug\ConvertXSLXtoXML.exe
+D:\srce_controle\resource-xsl-transfer\ConvertXSLXtoXML\bin\Debug\ConvertXSLXtoXML.pdb
+D:\srce_controle\resource-xsl-transfer\ConvertXSLXtoXML\obj\Debug\ConvertXSLXtoXML.csprojResolveAssemblyReference.cache
+D:\srce_controle\resource-xsl-transfer\ConvertXSLXtoXML\obj\Debug\ConvertXSLXtoXML.Form1.resources
+D:\srce_controle\resource-xsl-transfer\ConvertXSLXtoXML\obj\Debug\ConvertXSLXtoXML.Form2.resources
+D:\srce_controle\resource-xsl-transfer\ConvertXSLXtoXML\obj\Debug\ConvertXSLXtoXML.Labels.resources
+D:\srce_controle\resource-xsl-transfer\ConvertXSLXtoXML\obj\Debug\ConvertXSLXtoXML.Properties.Resources.resources
+D:\srce_controle\resource-xsl-transfer\ConvertXSLXtoXML\obj\Debug\ConvertXSLXtoXML.csproj.GenerateResource.Cache

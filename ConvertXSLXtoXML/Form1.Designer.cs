@@ -97,6 +97,7 @@
             // 
             // txtbxExcelfileName
             // 
+            this.txtbxExcelfileName.Enabled = false;
             this.txtbxExcelfileName.Location = new System.Drawing.Point(193, 39);
             this.txtbxExcelfileName.Name = "txtbxExcelfileName";
             this.txtbxExcelfileName.Size = new System.Drawing.Size(322, 20);
@@ -104,6 +105,7 @@
             // 
             // txtbxResxFilePath
             // 
+            this.txtbxResxFilePath.Enabled = false;
             this.txtbxResxFilePath.Location = new System.Drawing.Point(193, 117);
             this.txtbxResxFilePath.Name = "txtbxResxFilePath";
             this.txtbxResxFilePath.Size = new System.Drawing.Size(322, 20);
